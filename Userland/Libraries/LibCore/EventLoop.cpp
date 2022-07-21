@@ -83,7 +83,7 @@ thread_local bool s_warned_promise_count { false };
 void EventLoop::initialize_wake_pipes()
 {
     if (!s_wake_pipe_initialized) {
-#if defined(SOCK_NONBLOCK)
+#if defined(SOCK_NONBLOCK) && !defined(AK_OS_WINDOWS)
         int rc = pipe2(s_wake_pipe_fds, O_CLOEXEC);
 #else
         int rc = pipe(s_wake_pipe_fds);

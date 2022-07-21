@@ -21,7 +21,7 @@
 int getentropy(void *buffer, size_t length);
 #endif
 
-#if defined(AK_OS_MACOS)
+#if defined(AK_OS_MACOS) || defined(AK_OS_WINDOWS)
 #    include <sys/random.h>
 #endif
 

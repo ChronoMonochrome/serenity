@@ -9,6 +9,10 @@
 #include <LibCore/DirIterator.h>
 #include <errno.h>
 
+#if defined(AK_OS_WINDOWS)
+#    include <dirent.h>
+#endif
+
 namespace Core {
 
 DirIterator::DirIterator(DeprecatedString path, Flags flags)

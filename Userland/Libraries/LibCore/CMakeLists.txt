@@ -35,7 +35,7 @@ set(SOURCES
     UDPServer.cpp
     Version.cpp
 )
-if (NOT ANDROID AND NOT WIN32 AND NOT EMSCRIPTEN)
+if (NOT ANDROID AND NOT WIN32 AND NOT CYGWIN AND NOT EMSCRIPTEN)
     list(APPEND SOURCES
         Account.cpp
         FilePermissionsMask.cpp

@@ -82,8 +82,14 @@
 #    define AK_OS_SOLARIS
 #endif
 
-#if defined(_WIN32) || defined(_WIN64)
+#if defined(_WIN32) || defined(_WIN64) || defined(__CYGWIN__)
 #    define AK_OS_WINDOWS
+#    undef __POSIX_VISIBLE
+#    define __POSIX_VISIBLE 200809
+#    undef __XSI_VISIBLE
+#    define __XSI_VISIBLE 700
+#    undef __GNU_VISIBLE
+#    define __GNU_VISIBLE 1
 #endif
 
 #if defined(__ANDROID__)
@@ -200,7 +206,7 @@ extern "C" {
 #    define CLOCK_MONOTONIC_COARSE CLOCK_MONOTONIC
 #endif
 
-#if defined(AK_OS_BSD_GENERIC) && !defined(AK_OS_FREEBSD)
+#if (defined(AK_OS_BSD_GENERIC) && !defined(AK_OS_FREEBSD)) || defined(AK_OS_WINDOWS)
 #    define CLOCK_MONOTONIC_COARSE CLOCK_MONOTONIC
 #    define CLOCK_REALTIME_COARSE CLOCK_REALTIME
 #endif

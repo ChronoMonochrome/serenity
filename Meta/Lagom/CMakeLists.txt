@@ -14,6 +14,12 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_
       "Please re-read the build instructions documentation, and upgrade your host compiler.\n")
 endif()
 
+if (CYGWIN)
+    set(BUILD_SHARED_LIBS OFF)
+    unset(BUILD_LAGOM CACHE)
+    message(STATUS "Disabled unsupported Lagom libraries/apps and shared libraries under cygwin")
+endif()
+
 # This is required for CMake (when invoked for a Lagom-only build) to
 # ignore any files downloading during the build, e.g. UnicodeData.txt.
 # https://cmake.org/cmake/help/latest/policy/CMP0058.html
@@ -316,7 +322,7 @@ endif()
 add_library(LibC INTERFACE)
 add_library(LibCrypt INTERFACE)
 add_library(LibSystem INTERFACE)
-if (NOT APPLE AND NOT ANDROID AND NOT EMSCRIPTEN AND NOT ${CMAKE_SYSTEM_NAME} MATCHES "OpenBSD")
+if (NOT APPLE AND NOT ANDROID AND NOT CYGWIN AND NOT EMSCRIPTEN AND NOT ${CMAKE_SYSTEM_NAME} MATCHES "OpenBSD")
     target_link_libraries(LibCrypt INTERFACE crypt) # LibCore::Account uses crypt() but it's not in libcrypt on macOS
 endif()
 if (SERENITYOS)
@@ -327,6 +333,11 @@ endif()
 add_library(NoCoverage INTERFACE)
 # "install" these special targets to placate CMake
 install(TARGETS LibC LibCrypt LibSystem NoCoverage EXPORT LagomTargets)
+
+# Only enable gcc extensions for LibCore, LibMain & LibTimeZone under cygwin
+if (CYGWIN)
+    set(CMAKE_CXX_EXTENSIONS ON)
+endif()
 
 # AK/LibCore
 # Note: AK is included in LibCore for the host build instead of LibC per the target build
@@ -355,6 +366,11 @@ install(TARGETS LibTimeZone EXPORT LagomTargets)
 # LibIDL
 # This is used by the BindingsGenerator so needs to always be built.
 add_serenity_subdirectory(Userland/Libraries/LibIDL)
+
+# Disable previously enabled gcc extensions
+if (CYGWIN)
+    set(CMAKE_CXX_EXTENSIONS OFF)
+endif()
 
 # Manually install AK headers
 install(

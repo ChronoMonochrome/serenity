@@ -258,7 +258,11 @@ DeprecatedString DateTime::to_deprecated_string(StringView format) const
                 format_time_zone_offset(true);
                 break;
             case 'Z': {
+#if defined(AK_OS_WINDOWS)
+                auto const* timezone_name = "";
+#else
                 auto const* timezone_name = tzname[tm.tm_isdst == 0 ? 0 : 1];
+#endif
                 builder.append({ timezone_name, strlen(timezone_name) });
                 break;
             }

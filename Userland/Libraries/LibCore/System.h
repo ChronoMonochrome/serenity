@@ -31,13 +31,17 @@
 #include <time.h>
 #include <utime.h>
 
-#if !defined(AK_OS_BSD_GENERIC) && !defined(AK_OS_ANDROID)
+#if !defined(AK_OS_BSD_GENERIC) && !defined(AK_OS_ANDROID) && !defined(AK_OS_WINDOWS)
 #    include <shadow.h>
 #endif
 
 #ifdef AK_OS_SOLARIS
 #    include <sys/filio.h>
 #    include <ucred.h>
+#endif
+
+#if defined(AK_OS_WINDOWS)
+typedef _sig_func_ptr sighandler_t;
 #endif
 
 namespace Core::System {
@@ -88,7 +92,7 @@ ALWAYS_INLINE ErrorOr<void> unveil(nullptr_t, nullptr_t)
     return unveil(StringView {}, StringView {});
 }
 
-#if !defined(AK_OS_BSD_GENERIC) && !defined(AK_OS_ANDROID)
+#if !defined(AK_OS_BSD_GENERIC) && !defined(AK_OS_ANDROID) && !defined(AK_OS_WINDOWS)
 ErrorOr<Optional<struct spwd>> getspent();
 ErrorOr<Optional<struct spwd>> getspnam(StringView name);
 #endif

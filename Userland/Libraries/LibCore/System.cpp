@@ -289,7 +289,7 @@ ErrorOr<void> profiling_free_buffer(pid_t pid)
 }
 #endif
 
-#if !defined(AK_OS_BSD_GENERIC) && !defined(AK_OS_ANDROID)
+#if !defined(AK_OS_BSD_GENERIC) && !defined(AK_OS_ANDROID) && !defined(AK_OS_WINDOWS)
 ErrorOr<Optional<struct spwd>> getspent()
 {
     errno = 0;
@@ -1079,7 +1079,7 @@ ErrorOr<struct utsname> uname()
     return uts;
 }
 
-#ifndef AK_OS_ANDROID
+#if !defined(AK_OS_ANDROID) && !defined(AK_OS_WINDOWS)
 ErrorOr<void> adjtime(const struct timeval* delta, struct timeval* old_delta)
 {
 #    ifdef AK_OS_SERENITY
@@ -1392,7 +1392,7 @@ ErrorOr<void> socketpair(int domain, int type, int protocol, int sv[2])
 ErrorOr<Array<int, 2>> pipe2([[maybe_unused]] int flags)
 {
     Array<int, 2> fds;
-#if defined(__unix__)
+#if defined(__unix__) && !defined(AK_OS_WINDOWS)
     if (::pipe2(fds.data(), flags) < 0)
         return Error::from_syscall("pipe2"sv, -errno);
 #else
