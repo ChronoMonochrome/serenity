@@ -16,6 +16,9 @@
 
 #if defined(__unix__)
 #    include <unistd.h>
+#include <stdio.h>
+#include <cstring>
+int getentropy(void *buffer, size_t length);
 #endif
 
 #if defined(AK_OS_MACOS)

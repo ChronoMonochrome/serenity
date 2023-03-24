@@ -6,6 +6,15 @@
 
 #include <AK/Random.h>
 
+#include <stdio.h>
+#include <cstring>
+int getentropy(void *buffer, size_t length) {
+    //(void)buffer;
+    memset(buffer, 69, length);
+    printf("getentropy: length=%d\n", (int)length);
+    return 0;
+}
+
 namespace AK {
 
 u32 get_random_uniform(u32 max_bounds)
