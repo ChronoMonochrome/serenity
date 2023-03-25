@@ -55,6 +55,8 @@ ErrorOr<LzmaModelProperties> LzmaHeader::decode_model_properties(u8 input_bits)
 
     u8 literal_context_bits = input_bits % 9;
     input_bits /= 9;
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wtype-limits"
     VERIFY(literal_context_bits >= 0 && literal_context_bits <= 8);
 
     u8 literal_position_bits = input_bits % 5;
@@ -63,6 +65,7 @@ ErrorOr<LzmaModelProperties> LzmaHeader::decode_model_properties(u8 input_bits)
 
     u8 position_bits = input_bits;
     VERIFY(position_bits >= 0 && position_bits <= 4);
+#pragma GCC diagnostic pop
 
     return LzmaModelProperties {
         .literal_context_bits = literal_context_bits,

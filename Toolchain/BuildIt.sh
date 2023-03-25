@@ -191,7 +191,7 @@ pushd "$DIR/Tarballs"
         fi
         if [ "$md5" != ${GDB_MD5SUM} ] ; then
             rm -f $GDB_PKG
-            curl -LO "$GDB_BASE_URL/$GDB_PKG"
+            wget "$GDB_BASE_URL/$GDB_PKG"
         else
             echo "Skipped downloading gdb"
         fi
@@ -204,7 +204,7 @@ pushd "$DIR/Tarballs"
     fi
     if [ "$md5" != ${BINUTILS_MD5SUM} ] ; then
         rm -f $BINUTILS_PKG
-        curl -LO "$BINUTILS_BASE_URL/$BINUTILS_PKG"
+        wget "$BINUTILS_BASE_URL/$BINUTILS_PKG"
     else
         echo "Skipped downloading binutils"
     fi
@@ -216,7 +216,7 @@ pushd "$DIR/Tarballs"
     fi
     if [ "$md5" != ${GCC_MD5SUM} ] ; then
         rm -f $GCC_PKG
-        curl -LO "$GCC_BASE_URL/$GCC_NAME/$GCC_PKG"
+        wget "$GCC_BASE_URL/$GCC_NAME/$GCC_PKG"
     else
         echo "Skipped downloading gcc"
     fi

@@ -9,6 +9,8 @@
 #include <AK/Checked.h>
 #include <AK/NumericLimits.h>
 
+#pragma GCC diagnostic ignored "-Wtautological-compare"
+
 // These tests only check whether the usual operator semantics work.
 // TODO: Add tests about the actual `Check`ing itself!
 

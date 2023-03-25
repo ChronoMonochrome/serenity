@@ -310,6 +310,11 @@ ensure_toolchain() {
     if [ "$(cmake -P "$SERENITY_SOURCE_DIR"/Meta/CMake/cmake-version.cmake)" -ne 1 ]; then
         build_cmake
     fi
+
+    if [ "$REBUILD_CMAKE" == "1" ] ; then
+        build_cmake
+    fi
+
     [ -d "$TOOLCHAIN_DIR" ] || build_toolchain
 
     if [ "$TOOLCHAIN_TYPE" = "GNU" ]; then
@@ -535,7 +540,7 @@ elif [ "$CMD" = "rebuild-toolchain" ]; then
     cmd_with_target
     lagom_unsupported "The lagom target uses the host toolchain"
     confirm_rebuild_if_toolchain_exists
-    delete_toolchain
+    #delete_toolchain
     ensure_toolchain
 elif [ "$CMD" = "rebuild-world" ]; then
     cmd_with_target

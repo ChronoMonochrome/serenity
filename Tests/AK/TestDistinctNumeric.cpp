@@ -8,6 +8,8 @@
 
 #include <AK/DistinctNumeric.h>
 
+#pragma GCC diagnostic ignored "-Wtautological-compare"
+
 template<typename T>
 class ForType {
 public:

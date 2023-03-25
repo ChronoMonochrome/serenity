@@ -49,7 +49,7 @@ mkdir -p "$DIR"/Tarballs
 pushd "$DIR"/Tarballs
     if [ ! -e "${CMAKE_ARCHIVE}" ]; then
         echo "Downloading CMake from ${CMAKE_ARCHIVE_URL}..."
-        curl "${CMAKE_ARCHIVE_URL}" -L -o "${CMAKE_ARCHIVE}"
+        wget "${CMAKE_ARCHIVE_URL}" -O "${CMAKE_ARCHIVE}"
     else
         echo "${CMAKE_ARCHIVE} already exists, not downloading archive"
     fi
@@ -72,7 +72,7 @@ mkdir -p "${PREFIX_DIR}"
 mkdir -p "${BUILD_DIR}"
 
 pushd "${BUILD_DIR}"
-    "${TARBALLS_DIR}"/cmake-"${CMAKE_VERSION}"/bootstrap --prefix="${PREFIX_DIR}" --parallel="${MAKEJOBS}"
+    "${TARBALLS_DIR}"/cmake-"${CMAKE_VERSION}"/bootstrap --system-curl --prefix="${PREFIX_DIR}" --parallel="${MAKEJOBS}"
     make -j "${MAKEJOBS}"
     make install
 popd
